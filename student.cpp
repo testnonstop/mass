@@ -98,11 +98,14 @@ void free_student(Student* student) {
 
 // Пример использования
 int main() {
+    setlocale(LC_ALL, "rus");
+
     Student stu = input_student();
     print_student(&stu);
     free_student(&stu);
 
     return 0;
 }
+
 
 
