@@ -1,2 +1,104 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+#define _CRT_SECURE_NO_DEPRECATE
+#include <stdio.h>
+#include <locale.h>
+#include <stdlib.h>
+#include <math.h>
+
+#define MAX_N 1000
+
+double bank_round(double x) {
+    double floor_x = floor(x);      // Целая часть числа
+    double diff = x - floor_x;    // Дробная часть
+
+    if (diff > 0.5) {
+        // Дробная часть больше 0.5 — округляем вверх
+        return ceil(x);
+    }
+    else if (diff < 0.5) {
+        // Дробная часть меньше 0.5 — округляем вниз
+        return floor_x;
+    }
+    else {
+        // Дробная часть равна 0.5 — округляем к ближайшему четному
+        if (fmod(floor_x, 2.0) == 0.0) {
+            return floor_x;   // если целая часть четная, оставляем её
+        }
+        else {
+            return floor_x + 1.0; // если нечетная, округляем вверх до следующего четного
+        }
+    }
+}
+
+int main() {
+    setlocale(LC_ALL, "rus");
+
+    int n;
+    printf("Введите количество элементов массива n: ");
+    scanf("%d", &n);
+
+    double arr[MAX_N];
+    printf("Исходный массив:\n");
+    for (int i = 0; i < n; i++) {
+        arr[i] = rand() % 1000 / 10.0;
+        printf("%f ", arr[i]);
+    }
+    printf("\n");
+
+    double sum = 0.0;
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+    double average = sum / n;
+    printf("Среднее арифметическое исходного массива: %.2f\n", average);
+
+    double arr_floor[MAX_N], arr_ceil[MAX_N], arr_round[MAX_N], arr_bank[MAX_N];
+
+    // Заполняем массивы округлёнными значениями
+    for (int i = 0; i < n; i++) {
+        arr_floor[i] = floor(arr[i]);        // Округление вниз
+        arr_ceil[i]  = ceil(arr[i]);       // Округление вверх
+        arr_round[i] = round(arr[i]);      // Математическое округление
+        arr_bank[i]  = bank_round(arr[i]); // Банковское округление
+    }
+
+    // Вывод результатов с подсчётом среднего для каждого типа округления
+
+    printf("\nОкругление вниз (floor):\n");
+    sum = 0.0;
+    for (int i = 0; i < n; i++) {
+        printf("%f -> %f\n", arr[i], arr_floor[i]);
+        sum += arr_floor[i];
+    }
+    average = sum / n;
+    printf("Среднее арифметическое после округления вниз: %.2f\n", average);
+
+    printf("\nОкругление вверх (ceil):\n");
+    sum = 0.0;
+    for (int i = 0; i < n; i++) {
+        printf("%f -> %f\n", arr[i], arr_ceil[i]);
+        sum += arr_ceil[i];
+    }
+    average = sum / n;
+    printf("Среднее арифметическое после округления вверх: %.2f\n", average);
+
+    printf("\nМатематическое округление (round):\n");
+    sum = 0.0;
+    for (int i = 0; i < n; i++) {
+        printf("%f -> %f\n", arr[i], arr_round[i]);
+        sum += arr_round[i];
+    }
+    average = sum / n;
+    printf("Среднее арифметическое после математического округления: %.2f\n", average);
+
+    printf("\nБанковское округление:\n");
+    sum = 0.0;
+    for (int i = 0; i < n; i++) {
+        printf("%f -> %f\n", arr[i], arr_bank[i]);
+        sum += arr_bank[i];
+    }
+    average = sum / n;
+    printf("Среднее арифметическое после банковского округления: %.2f\n", average);
+
+    return 0;
+}
+
