@@ -1,8 +1,10 @@
+#define _CRT_SECURE_NO_DEPRECATE
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Структура студента
+
+// Г‘ГІГ°ГіГЄГІГіГ°Г  Г±ГІГіГ¤ГҐГ­ГІГ 
 typedef struct {
     int curs;
     int age;
@@ -11,37 +13,37 @@ typedef struct {
     const char* full_name;
 } Student;
 
-// 1. Функция ввода данных студента
+// 1. Г”ГіГ­ГЄГ¶ГЁГї ГўГўГ®Г¤Г  Г¤Г Г­Г­Г»Гµ Г±ГІГіГ¤ГҐГ­ГІГ 
 Student input_student() {
     Student student;
 
-    printf("Введите ФИО студента: ");
+    printf("Г‚ГўГҐГ¤ГЁГІГҐ Г”Г€ГЋ Г±ГІГіГ¤ГҐГ­ГІГ : ");
     char name_buffer[256];
     fgets(name_buffer, sizeof(name_buffer), stdin);
-    // Удаляем символ перевода строки, если он есть
+    // Г“Г¤Г Г«ГїГҐГ¬ Г±ГЁГ¬ГўГ®Г« ГЇГҐГ°ГҐГўГ®Г¤Г  Г±ГІГ°Г®ГЄГЁ, ГҐГ±Г«ГЁ Г®Г­ ГҐГ±ГІГј
     size_t len = strlen(name_buffer);
     if (len > 0 && name_buffer[len - 1] == '\n') {
         name_buffer[len - 1] = '\0';
     }
-    student.full_name = strdup(name_buffer); // Выделяем память и копируем строку
+    student.full_name = strdup(name_buffer); // Г‚Г»Г¤ГҐГ«ГїГҐГ¬ ГЇГ Г¬ГїГІГј ГЁ ГЄГ®ГЇГЁГ°ГіГҐГ¬ Г±ГІГ°Г®ГЄГі
 
-    printf("Введите курс: ");
+    printf("Г‚ГўГҐГ¤ГЁГІГҐ ГЄГіГ°Г±: ");
     scanf_s("%d", &student.curs);
 
-    printf("Введите возраст: ");
+    printf("Г‚ГўГҐГ¤ГЁГІГҐ ГўГ®Г§Г°Г Г±ГІ: ");
     scanf_s("%d", &student.age);
 
-    printf("Введите количество оценок: ");
+    printf("Г‚ГўГҐГ¤ГЁГІГҐ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г®Г¶ГҐГ­Г®ГЄ: ");
     scanf_s("%d", &student.marks_counts);
 
-    // Выделяем память для массива оценок
+    // Г‚Г»Г¤ГҐГ«ГїГҐГ¬ ГЇГ Г¬ГїГІГј Г¤Г«Гї Г¬Г Г±Г±ГЁГўГ  Г®Г¶ГҐГ­Г®ГЄ
     student.marks = (int*)malloc(student.marks_counts * sizeof(int));
     if (student.marks == NULL) {
-        fprintf(stderr, "Ошибка выделения памяти для оценок!\n");
+        fprintf(stderr, "ГЋГёГЁГЎГЄГ  ГўГ»Г¤ГҐГ«ГҐГ­ГЁГї ГЇГ Г¬ГїГІГЁ Г¤Г«Гї Г®Г¶ГҐГ­Г®ГЄ!\n");
         exit(1);
     }
 
-    printf("Введите оценки через пробел: ");
+    printf("Г‚ГўГҐГ¤ГЁГІГҐ Г®Г¶ГҐГ­ГЄГЁ Г·ГҐГ°ГҐГ§ ГЇГ°Г®ГЎГҐГ«: ");
     for (int i = 0; i < student.marks_counts; i++) {
         scanf_s("%d", &student.marks[i]);
     }
@@ -49,24 +51,24 @@ Student input_student() {
     return student;
 }
 
-// 2. Функция вывода данных студента
+// 2. Г”ГіГ­ГЄГ¶ГЁГї ГўГ»ГўГ®Г¤Г  Г¤Г Г­Г­Г»Гµ Г±ГІГіГ¤ГҐГ­ГІГ 
 void print_student(const Student* student) {
-    printf("\n--- Данные студента ---\n");
-    printf("ФИО: %s\n", student->full_name);
-    printf("Курс: %d\n", student->curs);
-    printf("Возраст: %d\n", student->age);
-    printf("Количество оценок: %d\n", student->marks_counts);
-    printf("Оценки: ");
+    printf("\n--- Г„Г Г­Г­Г»ГҐ Г±ГІГіГ¤ГҐГ­ГІГ  ---\n");
+    printf("Г”Г€ГЋ: %s\n", student->full_name);
+    printf("ГЉГіГ°Г±: %d\n", student->curs);
+    printf("Г‚Г®Г§Г°Г Г±ГІ: %d\n", student->age);
+    printf("ГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г®Г¶ГҐГ­Г®ГЄ: %d\n", student->marks_counts);
+    printf("ГЋГ¶ГҐГ­ГЄГЁ: ");
     for (int i = 0; i < student->marks_counts; i++) {
         printf("%d ", student->marks[i]);
     }
     printf("\n");
 }
 
-// 3. Функция очистки памяти студента
+// 3. Г”ГіГ­ГЄГ¶ГЁГї Г®Г·ГЁГ±ГІГЄГЁ ГЇГ Г¬ГїГІГЁ Г±ГІГіГ¤ГҐГ­ГІГ 
 void free_student(Student* student) {
     if (student->full_name != NULL) {
-        free((void*)student->full_name); // Приводим к void*, т.к. full_name — const char*
+        free((void*)student->full_name); // ГЏГ°ГЁГўГ®Г¤ГЁГ¬ ГЄ void*, ГІ.ГЄ. full_name вЂ” const char*
         student->full_name = NULL;
     }
 
@@ -75,19 +77,21 @@ void free_student(Student* student) {
         student->marks = NULL;
     }
 
-    // Обнуляем остальные поля для безопасности
+    // ГЋГЎГ­ГіГ«ГїГҐГ¬ Г®Г±ГІГ Г«ГјГ­Г»ГҐ ГЇГ®Г«Гї Г¤Г«Гї ГЎГҐГ§Г®ГЇГ Г±Г­Г®Г±ГІГЁ
     student->curs = 0;
     student->age = 0;
     student->marks_counts = 0;
 }
 
-// Пример использования
+// ГЏГ°ГЁГ¬ГҐГ° ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГї
 int main() {
+    setlocale(LC_ALL, "rus");
     Student stu = input_student();
     print_student(&stu);
     free_student(&stu);
 
     return 0;
 }
+
 
 
