@@ -1,0 +1,42 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#include <stdio.h>
+#include <locale.h>
+
+int main() {
+
+    unsigned short num1, num2;
+    unsigned int result;
+
+    // Ввод двух чисел
+    printf("Введите первое число (unsigned short): ");
+    scanf("%hu", &num1);
+    printf("Введите второе число (unsigned short): ");
+    scanf("%hu", &num2);
+
+    unsigned short min_num, max_num;
+
+    // Определяем меньшее и большее число
+    if (num1 <= num2) {
+        min_num = num1;
+        max_num = num2;
+    }
+    else {
+        min_num = num2;
+        max_num = num1;
+    }
+
+    // Формируем 4-байтовое число:
+    // - старшее слово (биты 16-31): min_num
+    // - младшее слово (биты 0-15): max_num
+    result = ((unsigned int)min_num << 16) | max_num;
+
+    // Вывод результатов
+    printf("\nРезультаты:\n");
+    printf("Исходные числа: %hu, %hu\n", num1, num2);
+    printf("Меньшее число (старшее слово): %hu\n", min_num);
+    printf("Большее число (младшее слово): %hu\n", max_num);
+    printf("Итоговое 4-байтовое число (hex): 0x%08X\n", result);
+    printf("Итоговое 4-байтовое число (dec): %u\n", result);
+
+    return 0;
+}
