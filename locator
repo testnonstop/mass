@@ -1,0 +1,46 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#include <stdio.h>
+#include <locale.h>
+int main() {
+    setlocale(LC_ALL, "rus");
+
+    const char* directions[4] = { "C", "В", "Ю", "З" };
+
+    // Начальное направление: север (индекс 0)
+    int current_dir = 0;
+
+    
+    int N1, N2;
+    printf("Введите первую команду (1, -1 или 2): ");
+    scanf("%d", &N1);
+    printf("Введите вторую команду (1, -1 или 2): ");
+    scanf("%d", &N2);
+
+    
+    if (N1 == 1) {
+        current_dir = (current_dir + 1) % 4;  //  направо
+    }
+    else if (N1 == -1) {
+        current_dir = (current_dir - 1 + 4) % 4;  //  налево 
+    }
+    else if (N1 == 2) {
+        current_dir = (current_dir + 2) % 4;  // Разворот
+    }
+
+    
+    if (N2 == 1) {
+        current_dir = (current_dir + 1) % 4;
+    }
+    else if (N2 == -1) {
+        current_dir = (current_dir - 1 + 4) % 4;
+    }
+    else if (N2 == 2) {
+        current_dir = (current_dir + 2) % 4;
+    }
+
+    // Вывод результата
+    printf("Итоговая ориентация локатора: %s\n", directions[current_dir]);
+
+    return 0;
+}
+
