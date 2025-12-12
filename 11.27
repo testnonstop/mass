@@ -1,0 +1,61 @@
+#define _CRT_SECURE_NO_DEPRECATE
+#include <stdio.h>
+#include <math.h>
+#include <locale.h>
+
+// Функция вычисляет Y(x) — эталонное значение
+double Y(double x) {
+    return exp(cos(x)) * cos(sin(x));
+}
+
+// Функция вычисляет S(x) как сумму ряда от k=0 до k=n
+double S(double x, int n) {
+    double sum = 0.0;
+    double factorial = 1.0;  // k! для k=0
+
+    for (int k = 0; k <= n; k++) {
+        if (k > 0) {
+            factorial *= k;  // Вычисляем k! итеративно
+        }
+
+        double term = cos(k * x) / factorial;
+        sum += term;
+    }
+
+    return sum;
+}
+
+int main() {
+    setlocale(LC_ALL, "rus");
+
+    double a,b , dx ,x;
+    int n;
+
+    printf("Введите начало интервала a: ");
+    scanf("%lf", &a);
+    printf("Введите конец интервала b (b > a): ");
+    scanf("%lf", &b);
+    printf("Введите шаг dx (dx > 0): ");
+    scanf("%lf", &dx);
+    printf("Введите x (в радианах): ");
+    scanf("%lf", &x);
+    printf("Введите n (число членов ряда): ");
+    scanf("%d", &n);
+
+    // Вывод заголовка таблицы
+    printf("\nТаблица значений функций Y(x) и S(x)\n");
+    printf("-----------------------------------------\n");
+    printf("   x     |   Y(x)    |   S(x)   \n");
+    printf("-----------------------------------------\n");
+
+    // Вычисление и вывод значений по шагам
+    for (double x = a; x <= b; x += dx) {
+        double Y_val = Y(x);
+        double S_val = S(x, n);
+
+        // Выводим значения с фиксированной точностью
+        printf("%7.3f | %9.6f | %9.6f\n", x, Y_val, S_val);
+    }
+
+    return 0;
+}
