@@ -1,0 +1,7 @@
+#include <stdlib.h>
+
+void map(int* A, int size, int (*f)(int)) {
+    for (int i = 0; i < size; i++) {
+        A[i] = f(A[i]);
+    }
+}
