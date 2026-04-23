@@ -1,0 +1,115 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+
+// Структура узла двусвязного списка
+typedef struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+} Node;
+
+// Функция создания нового узла
+Node* createNode(int value) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (!newNode) return NULL;
+    newNode->data = value;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    return newNode;
+}
+
+// Функция печати списка
+void printList(Node* head) {
+    if (!head) {
+        printf("Список пуст.\n");
+        return;
+    }
+    Node* temp = head;
+    while (temp) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// Функция сортировки списка (пузырьком)
+void sortList(Node* head) {
+    if (!head) return;
+    int swapped;
+    Node* ptr1;
+    Node* lptr = NULL;
+
+    do {
+        swapped = 0;
+        ptr1 = head;
+
+        while (ptr1->next != lptr) {
+            if (ptr1->data > ptr1->next->data) {
+                // Меняем только данные в узлах
+                int temp = ptr1->data;
+                ptr1->data = ptr1->next->data;
+                ptr1->next->data = temp;
+                swapped = 1;
+            }
+            ptr1 = ptr1->next;
+        }
+        lptr = ptr1;
+    } while (swapped);
+}
+
+// Функция очистки памяти списка
+void freeList(Node** head) {
+    Node* current = *head;
+    Node* next;
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+    *head = NULL;
+}
+
+int main() {
+    // 1. Создаем и печатаем массив
+    setlocale(LC_ALL, "rus");
+    int arr[] = { 42, 7, 13, 1, 99, 24 };
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("Исходный массив: ");
+    for (int i = 0; i < n; i++) printf("%d ", arr[i]);
+    printf("\n\n");
+
+    // 2. Создаем двусвязный список из элементов массива
+    Node* head = NULL;
+    Node* tail = NULL;
+
+    for (int i = 0; i < n; i++) {
+        Node* newNode = createNode(arr[i]);
+        if (!head) {
+            head = tail = newNode;
+        }
+        else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    // 3. Печатаем список
+    printf("Созданный список: ");
+    printList(head);
+
+    // 4. Сортируем список
+    sortList(head);
+
+    // 5. Печатаем отсортированный список
+    printf("Отсортированный список: ");
+    printList(head);
+
+    // 6. Очищаем память
+    freeList(&head);
+    printf("\nПамять очищена.\n");
+
+    return 0;
+}
